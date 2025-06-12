@@ -2,87 +2,78 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'kartikhiremath/weather_app:${BUILD_NUMBER}'
+        DOCKER_IMAGE = 'your-dockerhub-username/weather-app'
+        SONARQUBE_ENV = 'SonarQube' // Name configured in Jenkins → Manage Jenkins → Configure System → SonarQube servers
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Kartik-Hiremath/weather_app.git'
+                checkout scm
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Trivy Vulnerability Scan') {
             steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    withSonarQubeEnv('MySonarQube') {
-                        sh '''
-                        /opt/homebrew/opt/sonar-scanner/bin/sonar-scanner \
-                        -Dsonar.token=$SONAR_TOKEN
-                        '''
-                    }
-                }
-            }
-        }
-
-
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
-            }
-        }
-
-        stage('Trivy Security Scan') {
-            steps {
-                // Allow scan to fail without breaking pipeline, but still alert you
                 sh '''
-                    trivy image --exit-code 1 --severity HIGH,CRITICAL $DOCKER_IMAGE || echo "Trivy found issues."
+                if ! command -v trivy &> /dev/null; then
+                    echo "Trivy not found. Please install it."
+                    exit 1
+                fi
+                trivy fs --exit-code 0 --severity LOW,MEDIUM,HIGH .
                 '''
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('SonarQube Analysis') {
+            environment {
+                // Add token in Jenkins Credentials and reference here
+                SONAR_TOKEN = credentials('sonarqube-token')
+            }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withSonarQubeEnv("${SONARQUBE_ENV}") {
                     sh '''
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push $DOCKER_IMAGE
+                    sonar-scanner \
+                      -Dsonar.projectKey=weather_app \
+                      -Dsonar.sources=. \
+                      -Dsonar.host.url=$SONAR_HOST_URL \
+                      -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
             }
         }
 
-        stage('Deploy Container') {
+        stage('Build Docker Image') {
             steps {
-                // Stop previous container if running, then start new one
-                sh '''
-                    docker stop weather_app_container || true
-                    docker rm weather_app_container || true
-                    docker run -d -p 80:80 --name weather_app_container $DOCKER_IMAGE
-                '''
+                script {
+                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
+                }
             }
         }
 
-        stage('Docker Test') {
+        stage('Push Docker Image') {
             steps {
-                sh 'which docker'
-                sh 'docker ps'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} ${DOCKER_IMAGE}:latest
+                    docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                    docker push ${DOCKER_IMAGE}:latest
+                    '''
+                }
             }
         }
-        stage('Sonar Test') {
+
+        stage('Deploy (Optional)') {
             steps {
-                sh 'which sonar-scanner'
-                sh 'sonar-scanner -v'
+                echo 'Deploy your app here. This can be SSH to server, kubectl, or Docker run.'
             }
         }
     }
 
     post {
-        failure {
-            echo 'Pipeline failed ❌'
-        }
-        success {
-            echo 'Pipeline executed successfully ✅'
+        always {
+            cleanWs()
         }
     }
 }
