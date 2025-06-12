@@ -14,11 +14,17 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('MySonarQube') {
-                    sh '/opt/homebrew/opt/sonar-scanner/bin/sonar-scanner'
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    withSonarQubeEnv('MySonarQube') {
+                        sh '''
+                        /opt/homebrew/opt/sonar-scanner/bin/sonar-scanner \
+                        -Dsonar.token=$SONAR_TOKEN
+                        '''
+                    }
                 }
             }
         }
+
 
         stage('Build Docker Image') {
             steps {
