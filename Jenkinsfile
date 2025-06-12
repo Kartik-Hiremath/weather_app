@@ -57,7 +57,13 @@ pipeline {
                 expression { return false } // Set to true if you want to enable deployment
             }
             steps {
-                echo "Deploy step goes here..."
+                echo "Deploying Docker container..."
+
+                sh '''
+                    docker stop weather_app_container || true
+                    docker rm weather_app_container || true
+                    docker run -d -p 8080:80 --name weather_app_container $DOCKER_IMAGE
+                '''
             }
         }
     }
