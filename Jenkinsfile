@@ -15,7 +15,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MySonarQube') {
-                    sh '/opt/homebrew/Cellar/sonar-scanner/7.1.0.4889/libexec/bin/sonar-scanner'
+                    sh '/opt/homebrew/opt/sonar-scanner/bin/sonar-scanner'
                 }
             }
         }
