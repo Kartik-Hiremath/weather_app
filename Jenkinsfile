@@ -2,35 +2,37 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "kartikhiremath/weather_app:latest"
+        DOCKER_IMAGE = 'kartikhiremath/weather_app:latest'
+        SONARQUBE_ENV = 'MySonarQube' // must match your Jenkins SonarQube config
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                checkout scm
+                git url: 'https://github.com/Kartik-Hiremath/weather_app.git', credentialsId: 'dockerhub-creds'
             }
         }
 
-        stage('Trivy Vulnerability Scan') {
+        stage('Trivy FS Scan') {
             steps {
-                sh 'command -v trivy'
                 sh 'trivy fs --exit-code 0 --severity LOW,MEDIUM,HIGH .'
             }
         }
 
         stage('SonarQube Analysis') {
+            environment {
+                SONAR_TOKEN = credentials('sonarqube-token') // must be a Jenkins credential
+            }
             steps {
-                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                    withSonarQubeEnv('MySonarQube') {
-                        sh '''
-                            sonar-scanner \
-                            -Dsonar.projectKey=weather_app \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.login=$SONAR_TOKEN
-                        '''
-                    }
+                withSonarQubeEnv("${SONARQUBE_ENV}") {
+                    sh '''
+                        sonar-scanner \
+                        -Dsonar.projectKey=weather_app \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
                 }
             }
         }
@@ -41,29 +43,30 @@ pipeline {
             }
         }
 
+        stage('Trivy Docker Image Scan') {
+            steps {
+                sh 'trivy image $DOCKER_IMAGE'
+            }
+        }
+
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                         docker push $DOCKER_IMAGE
                     '''
                 }
             }
         }
 
-        stage('Deploy (Optional)') {
+        stage('Deploy to Cloud (Optional)') {
             when {
-                expression { return false } // Set to true if you want to enable deployment
+                expression { return false } // set to true or add logic when ready
             }
             steps {
-                echo "Deploying Docker container..."
-
-                sh '''
-                    docker stop weather_app_container || true
-                    docker rm weather_app_container || true
-                    docker run -d -p 8080:80 --name weather_app_container $DOCKER_IMAGE
-                '''
+                // Placeholder: replace with SSH deploy
+                echo 'SSH into cloud server and run: docker pull + run'
             }
         }
     }
@@ -71,10 +74,12 @@ pipeline {
     post {
         always {
             cleanWs()
-            echo 'Pipeline finished ✅'
         }
         failure {
-            echo 'Pipeline failed ❌'
+            echo '❌ Pipeline failed!'
+        }
+        success {
+            echo '✅ Pipeline completed successfully!'
         }
     }
 }
