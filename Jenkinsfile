@@ -60,13 +60,9 @@ pipeline {
             }
         }
 
-        stage('Deploy to Cloud (Optional)') {
-            when {
-                expression { return false } // set to true or add logic when ready
-            }
+        stage('Deployment Notification') {
             steps {
-                // Placeholder: replace with SSH deploy
-                echo 'SSH into cloud server and run: docker pull + run'
+                echo '✅ App successfully deployed on Render at: https://weather-app-8k4q.onrender.com'
             }
         }
     }
