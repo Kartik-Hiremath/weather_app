@@ -69,7 +69,12 @@ pipeline {
                 sh 'docker ps'
             }
         }
-
+        stage('Sonar Test') {
+            steps {
+                sh 'which sonar-scanner'
+                sh 'sonar-scanner -v'
+            }
+        }
     }
 
     post {
