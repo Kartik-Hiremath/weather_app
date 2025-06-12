@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Kartik-Hiremath/weather_app.git', credentialsId: 'dockerhub-creds'
+                git branch: 'main',url: 'https://github.com/Kartik-Hiremath/weather_app.git', credentialsId: 'dockerhub-creds'
             }
         }
 
