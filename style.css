@@ -12,7 +12,7 @@ body{
     display: flex;
     justify-content: center;/*Horiaontally center*/
     align-items: center;    /*Vertically center*/
-    background-image: url("graphic1.svg");
+    background-image: url("graphic2.svg");
     background-size: cover;
     /* background-color: black; */
 }
