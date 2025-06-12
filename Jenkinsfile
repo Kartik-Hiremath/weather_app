@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "kartikhiremath/weather_app:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "kartikhiremath/weather_app:latest"
     }
 
     stages {
@@ -22,14 +22,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                    withSonarQubeEnv('My SonarQube Server') {
-                        sh """
+                    withSonarQubeEnv('MySonarQube') {
+                        sh '''
                             sonar-scanner \
                             -Dsonar.projectKey=weather_app \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=http://localhost:9000 \
                             -Dsonar.login=$SONAR_TOKEN
-                        """
+                        '''
                     }
                 }
             }
@@ -44,22 +44,20 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh """
+                    sh '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push $DOCKER_IMAGE
-                        docker logout
-                    """
+                    '''
                 }
             }
         }
 
         stage('Deploy (Optional)') {
             when {
-                expression { return env.DEPLOY == 'true' }
+                expression { return false } // Set to true if you want to enable deployment
             }
             steps {
-                echo 'Deploying container...'
-                // Add your custom deployment script here (e.g. Docker run, kubectl apply, etc.)
+                echo "Deploy step goes here..."
             }
         }
     }
@@ -67,9 +65,7 @@ pipeline {
     post {
         always {
             cleanWs()
-        }
-        success {
-            echo 'Pipeline completed successfully ✅'
+            echo 'Pipeline finished ✅'
         }
         failure {
             echo 'Pipeline failed ❌'
