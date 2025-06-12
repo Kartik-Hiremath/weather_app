@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'your-dockerhub-username/weather-app'
-        SONARQUBE_ENV = 'SonarQube' // Name configured in Jenkins → Manage Jenkins → Configure System → SonarQube servers
+        DOCKER_IMAGE = "kartikhiremath/weather_app:${BUILD_NUMBER}"
     }
 
     stages {
@@ -15,58 +14,52 @@ pipeline {
 
         stage('Trivy Vulnerability Scan') {
             steps {
-                sh '''
-                if ! command -v trivy &> /dev/null; then
-                    echo "Trivy not found. Please install it."
-                    exit 1
-                fi
-                trivy fs --exit-code 0 --severity LOW,MEDIUM,HIGH .
-                '''
+                sh 'command -v trivy'
+                sh 'trivy fs --exit-code 0 --severity LOW,MEDIUM,HIGH .'
             }
         }
 
         stage('SonarQube Analysis') {
-            environment {
-                // Add token in Jenkins Credentials and reference here
-                SONAR_TOKEN = credentials('sonarqube-token')
-            }
             steps {
-                withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    sh '''
-                    sonar-scanner \
-                      -Dsonar.projectKey=weather_app \
-                      -Dsonar.sources=. \
-                      -Dsonar.host.url=$SONAR_HOST_URL \
-                      -Dsonar.login=$SONAR_TOKEN
-                    '''
+                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                    withSonarQubeEnv('My SonarQube Server') {
+                        sh """
+                            sonar-scanner \
+                            -Dsonar.projectKey=weather_app \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.login=$SONAR_TOKEN
+                        """
+                    }
                 }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
-                }
+                sh 'docker build -t $DOCKER_IMAGE .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                    docker tag ${DOCKER_IMAGE}:${BUILD_NUMBER} ${DOCKER_IMAGE}:latest
-                    docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
-                    docker push ${DOCKER_IMAGE}:latest
-                    '''
+                    sh """
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $DOCKER_IMAGE
+                        docker logout
+                    """
                 }
             }
         }
 
         stage('Deploy (Optional)') {
+            when {
+                expression { return env.DEPLOY == 'true' }
+            }
             steps {
-                echo 'Deploy your app here. This can be SSH to server, kubectl, or Docker run.'
+                echo 'Deploying container...'
+                // Add your custom deployment script here (e.g. Docker run, kubectl apply, etc.)
             }
         }
     }
@@ -74,6 +67,12 @@ pipeline {
     post {
         always {
             cleanWs()
+        }
+        success {
+            echo 'Pipeline completed successfully ✅'
+        }
+        failure {
+            echo 'Pipeline failed ❌'
         }
     }
 }
