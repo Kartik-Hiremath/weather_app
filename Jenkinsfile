@@ -65,7 +65,6 @@ pipeline {
                 echo '✅ App successfully deployed on Render at: https://weather-app-8k4q.onrender.com'
             }
         }
-    }
 
     post {
         always {
