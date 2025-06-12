@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'yourdockerhubusername/weather_app:${BUILD_NUMBER}'
+        DOCKER_IMAGE = 'kartikhiremath/weather_app:${BUILD_NUMBER}'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/weather_app.git'
+                git 'https://github.com/Kartik-Hiremath/weather_app.git'
             }
         }
 
