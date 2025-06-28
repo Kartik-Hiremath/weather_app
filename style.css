@@ -20,7 +20,7 @@ body{
 .container{
     width :400px;
     height : min-content;
-    background-color: azure;
+    background-color: rgb(184, 230, 230);
     border-radius: 15px;
     padding: 28px;
 }
@@ -38,7 +38,7 @@ body{
     font-size: 20px;
     color: 202731;
     text-transform: capitalize;
-    background-color: #e6f5fb;
+    background-color: #fbf2e6;
     padding: 12px 16px;
     border-radius: 14px;/*In my case radius dosen't matter.*/
 }
@@ -50,7 +50,7 @@ body{
 .search-box button{
     width: 46px;
     height: 46px;
-    background-color: #e6f5fb;
+    background-color: #fbf2e6;
     border-radius: 50%;
     cursor: pointer;
     font-size: 20px;

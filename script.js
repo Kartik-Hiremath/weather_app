@@ -20,6 +20,7 @@ async function checkWeather(city) {
         console.log("Error in the name");
         return;
     }
+    location_not_found.css('display', 'none');
     weather_body.css('display', 'flex');
     temperature.html(`${Math.round(weather_data.main.temp - 273.15)}<sup>°C</sup>`);
     description.html(`${weather_data.weather[0].description}`);
