@@ -20,7 +20,7 @@ body{
 .container{
     width :400px;
     height : min-content;
-    background-color: rgb(184, 230, 230);
+    background-color: rgb(207, 224, 224);
     border-radius: 15px;
     padding: 28px;
 }

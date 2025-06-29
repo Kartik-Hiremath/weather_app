@@ -11,7 +11,7 @@ const weather_body = $('.weather-body');
 async function checkWeather(city) {
     const api_key = "a1678514234882f652831565f1f9c185";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
-
+    console.log(url);
     const weather_data = await fetch(`${url}`).then(response => response.json());
 
     if (weather_data.cod === `404`) {
@@ -49,3 +49,10 @@ async function checkWeather(city) {
 searchBtn.on('click', () => {
     checkWeather(inputBox.val());
 });
+
+inputBox.on('keypress', function(e) {
+    if (e.which === 13) { // 13 is the Enter key code
+        checkWeather(inputBox.val());
+    }
+});
+
