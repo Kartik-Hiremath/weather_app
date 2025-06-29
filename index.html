@@ -3,50 +3,558 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>Weather MultiApp - Production Ready</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="search-box">
-                <input type="text" class="input-box" placeholder="Enter your location" id="input-box">
-                <button class="fa-solid fa-magnifying-glass" id="searchBtn"></button>
-            </div>
-        </div>
-
-        <div class="location-not-found">
-            <h1>Sorry, location not found!!!</h1>
-            <img src="404.png" alt="404 Error">
-        </div>
-
-        <div class="weather-body">
-            <img src="clear.png" alt="Weather Image" class="weather-img">
-            <div class="weather-box">
-                <p class="temperature">0<sup>°C</sup></p>
-                <p class="description">clear sky</p>
-            </div>
-            <div class="weather-details">
-                <div class="humidity">
-                   <i class="fa-solid fa-droplet"></i>
-                   <div class="text">
-                       <span id="humidity">45%</span>
-                       <p>Humidity</p>
-                   </div>
+    <div id="app">
+        <!-- Navigation Tabs -->
+        <nav class="nav-container">
+            <div class="nav-wrapper">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </button>
+                    <button class="nav-tab" data-tab="weather">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </button>
+                    <button class="nav-tab" data-tab="calculator">
+                        <i class="fas fa-calculator"></i>
+                        <span>Calculator</span>
+                    </button>
+                    <button class="nav-tab" data-tab="news">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Weather News</span>
+                    </button>
+                    <button class="nav-tab" data-tab="trends">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Climate Trends</span>
+                    </button>
+                    <button class="nav-tab" data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
                 </div>
-                <div class="wind">
-                    <i class="fa-solid fa-wind"></i>
-                    <div class="text">
-                        <span id="wind-speed">11Km/H</span>
-                        <p>Wind Speed</p>
-                    </div>
-                 </div>
             </div>
-        </div>
-        
+        </nav>
+
+        <!-- Page Content -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            Welcome to
+                            <span class="gradient-text">Weather MultiApp</span>
+                        </h1>
+                        <div class="hero-divider"></div>
+                        <p class="hero-description">
+                            Production-ready weather application with real-time API integration, 
+                            dynamic news updates, and comprehensive climate data analysis.
+                        </p>
+                        <button class="hero-button" onclick="switchTab('weather')">
+                            Get Started
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <h2 class="section-title">Production Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon blue-gradient">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Weather Tracking</h3>
+                            <p>Real-time weather updates with OpenWeatherMap API integration and detailed metrics</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon purple-gradient">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3>Smart Calculator</h3>
+                            <p>Advanced calculator with scientific functions, history tracking, and responsive design</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon green-gradient">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Weather News</h3>
+                            <p>Dynamic weather reports and emergency alerts with real-time updates every 3 minutes</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon orange-gradient">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h3>Climate Trends</h3>
+                            <p>Scientific climate data analysis with official NOAA, IPCC, and EPA data sources</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-section">
+                    <h2 class="section-title">Technology Stack & DevOps</h2>
+                    <div class="tech-grid">
+                        <div class="tech-card">
+                            <div class="tech-emoji">⚛️</div>
+                            <div class="tech-title">Frontend</div>
+                            <div class="tech-desc">HTML5 + CSS3 + Vanilla JavaScript + Modern APIs</div>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-emoji">🔧</div>
+                            <div class="tech-title">DevOps Pipeline</div>
+                            <div class="tech-desc">Docker + Jenkins + SonarQube + GitHub</div>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-emoji">☁️</div>
+                            <div class="tech-title">Deployment</div>
+                            <div class="tech-desc">Render Cloud Platform with Auto-Deploy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">Real-Time</div>
+                            <div class="stat-label">Weather API Integration</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">Dynamic</div>
+                            <div class="stat-label">News Updates Every 3min</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">Production</div>
+                            <div class="stat-label">Ready Deployment</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Page -->
+            <div id="weather" class="page">
+                <div class="page-header">
+                    <h1>Weather Intelligence</h1>
+                    <p>Real-time weather information with immersive visualization</p>
+                </div>
+
+                <div class="weather-search">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-map-marker-alt search-icon"></i>
+                            <input type="text" id="locationInput" placeholder="Enter location (e.g., Tokyo, London, New York)" />
+                        </div>
+                        <button id="searchBtn" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="weatherError" class="error-message hidden">
+                    <p>Location not found. Please try again.</p>
+                    <p class="error-hint">Try searching for major cities like Tokyo, London, or New York</p>
+                </div>
+
+                <div id="weatherDisplay" class="weather-display hidden">
+                    <!-- Weather content will be populated by JavaScript -->
+                </div>
+
+                <div id="sampleLocations" class="sample-locations">
+                    <h3>Popular Destinations</h3>
+                    <div class="location-buttons">
+                        <button class="location-btn" onclick="searchLocation('Tokyo')">Tokyo</button>
+                        <button class="location-btn" onclick="searchLocation('London')">London</button>
+                        <button class="location-btn" onclick="searchLocation('Paris')">Paris</button>
+                        <button class="location-btn" onclick="searchLocation('New York')">New York</button>
+                        <button class="location-btn" onclick="searchLocation('Seoul')">Seoul</button>
+                        <button class="location-btn" onclick="searchLocation('Mumbai')">Mumbai</button>
+                        <button class="location-btn" onclick="searchLocation('Sydney')">Sydney</button>
+                        <button class="location-btn" onclick="searchLocation('Dubai')">Dubai</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator Page -->
+            <div id="calculator" class="page">
+                <div class="page-header">
+                    <h1>Quantum Calculator</h1>
+                    <p>Advanced mathematical computations with history tracking</p>
+                </div>
+
+                <div class="calculator-container">
+                    <div class="calculator-main">
+                        <div class="calculator-display">
+                            <div id="calculatorScreen">0</div>
+                        </div>
+                        <div class="calculator-buttons">
+                            <button class="calc-btn clear-btn" onclick="clearCalculator()">
+                                <i class="fas fa-undo"></i> Clear
+                            </button>
+                            <button class="calc-btn operator-btn" onclick="inputOperator('%')">%</button>
+                            <button class="calc-btn operator-btn" onclick="inputOperator('÷')">÷</button>
+                            
+                            <button class="calc-btn number-btn" onclick="inputNumber('7')">7</button>
+                            <button class="calc-btn number-btn" onclick="inputNumber('8')">8</button>
+                            <button class="calc-btn number-btn" onclick="inputNumber('9')">9</button>
+                            <button class="calc-btn operator-btn" onclick="inputOperator('×')">×</button>
+                            
+                            <button class="calc-btn number-btn" onclick="inputNumber('4')">4</button>
+                            <button class="calc-btn number-btn" onclick="inputNumber('5')">5</button>
+                            <button class="calc-btn number-btn" onclick="inputNumber('6')">6</button>
+                            <button class="calc-btn operator-btn" onclick="inputOperator('-')">-</button>
+                            
+                            <button class="calc-btn number-btn" onclick="inputNumber('1')">1</button>
+                            <button class="calc-btn number-btn" onclick="inputNumber('2')">2</button>
+                            <button class="calc-btn number-btn" onclick="inputNumber('3')">3</button>
+                            <button class="calc-btn operator-btn" onclick="inputOperator('+')">+</button>
+                            
+                            <button class="calc-btn number-btn zero-btn" onclick="inputNumber('0')">0</button>
+                            <button class="calc-btn number-btn" onclick="inputDecimal()">.</button>
+                            <button class="calc-btn equals-btn" onclick="calculateResult()">=</button>
+                        </div>
+                    </div>
+
+                    <div class="calculator-history">
+                        <div class="history-header">
+                            <h3>History</h3>
+                            <button onclick="clearHistory()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div id="calculatorHistory" class="history-list">
+                            <p class="no-history">No calculations yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather News Page -->
+            <div id="news" class="page">
+                <div class="page-header">
+                    <h1>🔴 Live Weather News</h1>
+                    <p>Real-time weather emergencies and breaking updates</p>
+                    <div class="news-controls">
+                        <span id="lastUpdated" class="last-updated">🕒 Last updated: --:--:--</span>
+                        <button id="refreshNews" class="refresh-btn">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div id="newsLoading" class="loading-spinner">
+                    <div class="spinner"></div>
+                    <span>Loading breaking news...</span>
+                </div>
+
+                <div id="newsContent" class="news-content hidden">
+                    <div id="featuredNews" class="featured-news">
+                        <!-- Featured news will be populated by JavaScript -->
+                    </div>
+
+                    <div id="newsGrid" class="news-grid">
+                        <!-- News articles will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="news-sources">
+                    <h3>🔗 Official Weather Emergency Sources</h3>
+                    <div class="source-buttons">
+                        <button onclick="openLink('https://www.noaa.gov/')">
+                            NOAA Alerts <i class="fas fa-external-link-alt"></i>
+                        </button>
+                        <button onclick="openLink('https://www.weather.gov/')">
+                            Weather.gov <i class="fas fa-external-link-alt"></i>
+                        </button>
+                        <button onclick="openLink('https://www.ready.gov/')">
+                            Emergency Alerts <i class="fas fa-external-link-alt"></i>
+                        </button>
+                        <button onclick="openLink('https://www.climate.gov/')">
+                            Climate.gov <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Climate Trends Page -->
+            <div id="trends" class="page">
+                <div class="page-header">
+                    <h1>Climate Analytics</h1>
+                    <p>Explore long-term climate patterns and scientific data</p>
+                </div>
+
+                <div class="trends-section">
+                    <h2>Global Climate Indicators</h2>
+                    <div class="indicators-grid">
+                        <div class="indicator-card">
+                            <div class="indicator-header">
+                                <div class="indicator-icon red-gradient">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <i class="fas fa-arrow-up trend-up"></i>
+                            </div>
+                            <h3>Global Temperature</h3>
+                            <div class="indicator-value">+1.2°C</div>
+                            <div class="indicator-change">+0.1°C from last year</div>
+                            <p>Above 20th century average</p>
+                        </div>
+
+                        <div class="indicator-card">
+                            <div class="indicator-header">
+                                <div class="indicator-icon blue-gradient">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <i class="fas fa-arrow-up trend-up"></i>
+                            </div>
+                            <h3>Sea Level Rise</h3>
+                            <div class="indicator-value">3.4mm/year</div>
+                            <div class="indicator-change">+0.2mm from last year</div>
+                            <p>Accelerating rate of increase</p>
+                        </div>
+
+                        <div class="indicator-card">
+                            <div class="indicator-header">
+                                <div class="indicator-icon cyan-gradient">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <i class="fas fa-arrow-down trend-down"></i>
+                            </div>
+                            <h3>Arctic Sea Ice</h3>
+                            <div class="indicator-value">-13%/decade</div>
+                            <div class="indicator-change">-2.1% from last year</div>
+                            <p>Below long-term average</p>
+                        </div>
+
+                        <div class="indicator-card">
+                            <div class="indicator-header">
+                                <div class="indicator-icon green-gradient">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <i class="fas fa-arrow-up trend-up"></i>
+                            </div>
+                            <h3>CO2 Levels</h3>
+                            <div class="indicator-value">421 ppm</div>
+                            <div class="indicator-change">+2.4 ppm from last year</div>
+                            <p>Highest in human history</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="regional-section">
+                    <h2>Regional Climate Analysis</h2>
+                    <div class="region-selector">
+                        <button class="region-btn active" data-region="global">Global</button>
+                        <button class="region-btn" data-region="northAmerica">North America</button>
+                        <button class="region-btn" data-region="europe">Europe</button>
+                        <button class="region-btn" data-region="asia">Asia</button>
+                    </div>
+
+                    <div id="regionalData" class="regional-data">
+                        <h3 id="regionName">Global Climate Trends</h3>
+                        <p id="regionDescription">Worldwide climate patterns and anomalies</p>
+                        
+                        <div class="regional-metrics">
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <i class="fas fa-thermometer-half"></i>
+                                    <span>Temperature Change</span>
+                                </div>
+                                <div id="tempChange" class="metric-value">+1.2°C</div>
+                                <p>Since pre-industrial times</p>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <i class="fas fa-tint"></i>
+                                    <span>Precipitation Change</span>
+                                </div>
+                                <div id="precipChange" class="metric-value">+2.1%</div>
+                                <p>Annual average change</p>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-header">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Extreme Events</span>
+                                </div>
+                                <div id="extremeEvents" class="metric-value">+15%</div>
+                                <p>Increase in frequency</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reports-section">
+                    <h2>Official Climate Reports & Data</h2>
+                    <div class="reports-grid">
+                        <div class="report-card" onclick="openLink('https://www.ipcc.ch/')">
+                            <div class="report-header">
+                                <h3>IPCC Sixth Assessment Report</h3>
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                            <p class="report-org">Intergovernmental Panel on Climate Change</p>
+                            <p class="report-desc">Comprehensive assessment of climate change science</p>
+                            <div class="report-footer">
+                                <span><i class="fas fa-calendar"></i> 2023</span>
+                                <span class="click-hint">Click to view →</span>
+                            </div>
+                        </div>
+
+                        <div class="report-card" onclick="openLink('https://www.ncei.noaa.gov/news/national-climate-report')">
+                            <div class="report-header">
+                                <h3>State of the Climate Report</h3>
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                            <p class="report-org">NOAA National Centers for Environmental Information</p>
+                            <p class="report-desc">Annual summary of global climate conditions</p>
+                            <div class="report-footer">
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span class="click-hint">Click to view →</span>
+                            </div>
+                        </div>
+
+                        <div class="report-card" onclick="openLink('https://www.climate.gov/news-features/understanding-climate/climate-change-global-temperature')">
+                            <div class="report-header">
+                                <h3>Global Climate Dashboard</h3>
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                            <p class="report-org">Climate.gov</p>
+                            <p class="report-desc">Real-time climate indicators and trends</p>
+                            <div class="report-footer">
+                                <span><i class="fas fa-calendar"></i> Updated Monthly</span>
+                                <span class="click-hint">Click to view →</span>
+                            </div>
+                        </div>
+
+                        <div class="report-card" onclick="openLink('https://www.epa.gov/climate-indicators')">
+                            <div class="report-header">
+                                <h3>Climate Change Indicators</h3>
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                            <p class="report-org">EPA Environmental Protection Agency</p>
+                            <p class="report-desc">Key indicators of climate change impacts</p>
+                            <div class="report-footer">
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span class="click-hint">Click to view →</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <div class="page-header">
+                    <h1>Settings</h1>
+                    <p>Customize your experience and preferences</p>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <i class="fas fa-palette"></i>
+                            <h3>Appearance & Theme</h3>
+                        </div>
+                        <div class="setting-item">
+                            <label>Theme Mode</label>
+                            <div class="theme-options">
+                                <button class="theme-btn active" data-theme="dark">
+                                    <i class="fas fa-moon"></i>
+                                    <span>Dark Mode</span>
+                                </button>
+                                <button class="theme-btn" data-theme="light">
+                                    <i class="fas fa-sun"></i>
+                                    <span>Light Mode</span>
+                                </button>
+                                <button class="theme-btn" data-theme="auto">
+                                    <i class="fas fa-desktop"></i>
+                                    <span>Auto (System)</span>
+                                </button>
+                            </div>
+                            <p class="setting-hint">Currently using: <span id="currentTheme">Dark mode</span></p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <i class="fas fa-bell"></i>
+                            <h3>Notifications</h3>
+                        </div>
+                        <div class="setting-item">
+                            <div class="toggle-setting">
+                                <span>Email Notifications</span>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p class="setting-desc">Receive updates via email</p>
+                        </div>
+                        <div class="setting-item">
+                            <div class="toggle-setting">
+                                <span>Weather Alerts</span>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p class="setting-desc">Get notified about weather changes</p>
+                        </div>
+                        <div class="setting-item">
+                            <div class="toggle-setting">
+                                <span>News Updates</span>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p class="setting-desc">Latest weather news and reports</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Privacy & Security</h3>
+                        </div>
+                        <div class="setting-item">
+                            <div class="toggle-setting">
+                                <span>Public Profile</span>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p class="setting-desc">Make your profile visible to others</p>
+                        </div>
+                        <div class="setting-item">
+                            <div class="toggle-setting">
+                                <span>Activity Status</span>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p class="setting-desc">Show your recent activity</p>
+                        </div>
+                    </div>
+
+                    <div class="save-settings">
+                        <button id="saveSettings" class="save-btn">
+                            <i class="fas fa-save"></i>
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="script.js"></script>
-    <script src="https://kit.fontawesome.com/9a5003e3ed.js" crossorigin="anonymous"></script><!--Icon designed from font awsome website-->
 </body>
 </html>
