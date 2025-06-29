@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',url: 'https://github.com/Kartik-Hiremath/weather_app.git', credentialsId: 'dockerhub-creds'
+                git branch: 'main', url: 'https://github.com/Kartik-Hiremath/weather_app.git', credentialsId: 'dockerhub-creds'
             }
         }
 
@@ -65,6 +65,7 @@ pipeline {
                 echo '✅ App successfully deployed on Render at: https://weather-app-8k4q.onrender.com'
             }
         }
+    }
 
     post {
         always {
@@ -78,4 +79,3 @@ pipeline {
         }
     }
 }
-
