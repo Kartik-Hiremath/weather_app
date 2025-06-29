@@ -1,6 +1,6 @@
 # Weather MultiApp - India Weather Focus 🇮🇳 🌦️
 
-A production-ready, India-focused weather application with real-time weather data, dynamic news updates, climate trends analysis, and a smart calculator. Built with vanilla HTML, CSS, and JavaScript for optimal performance and deployment.
+A production-ready, India-focused weather application with real-time weather data, dynamic news updates, and climate trends analysis. Built with vanilla HTML, CSS, and JavaScript for optimal performance and deployment.
 
 ## 🚀 Live Demo
 **Deployed at:** [weather-app-8k4q.onrender.com](https://weather-app-8k4q.onrender.com)
@@ -22,7 +22,6 @@ A production-ready, India-focused weather application with real-time weather dat
 - **Climate Change Impact** - Unprecedented weather events worldwide
 
 ### 📊 Advanced Features
-- **Smart Calculator** - Mathematical operations with history tracking
 - **Climate Trends** - Global and regional climate analysis
 - **Theme Support** - Dark/Light/Auto modes with system preference detection
 - **Responsive Design** - Optimized for all devices
@@ -153,12 +152,6 @@ sonar.typescript.lcov.reportPaths=coverage/lcov.info
 - **Regional Analysis** - India, North America, Europe, Asia
 - **Official Reports** - IPCC, NOAA, EPA data sources
 - **Interactive Charts** - Climate data visualization
-
-### 🧮 Smart Calculator
-- **Basic Operations** - Addition, subtraction, multiplication, division
-- **Advanced Functions** - Percentage calculations
-- **History Tracking** - Last 10 calculations stored
-- **Responsive Design** - Touch-friendly interface
 
 ### ⚙️ Settings Page
 - **Theme Control** - Dark/Light/Auto modes

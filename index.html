@@ -22,10 +22,6 @@
                         <i class="fas fa-cloud-sun"></i>
                         <span>Weather</span>
                     </button>
-                    <button class="nav-tab" data-tab="calculator">
-                        <i class="fas fa-calculator"></i>
-                        <span>Calculator</span>
-                    </button>
                     <button class="nav-tab" data-tab="news">
                         <i class="fas fa-newspaper"></i>
                         <span>India Weather News</span>
@@ -73,13 +69,6 @@
                             </div>
                             <h3>Weather Tracking</h3>
                             <p>Real-time weather updates with OpenWeatherMap API integration and detailed metrics</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon purple-gradient">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <h3>Smart Calculator</h3>
-                            <p>Advanced calculator with scientific functions, history tracking, and responsive design</p>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon green-gradient">
@@ -180,64 +169,10 @@
                 </div>
             </div>
 
-            <!-- Calculator Page -->
-            <div id="calculator" class="page">
-                <div class="page-header">
-                    <h1>Quantum Calculator</h1>
-                    <p>Advanced mathematical computations with history tracking</p>
-                </div>
-
-                <div class="calculator-container">
-                    <div class="calculator-main">
-                        <div class="calculator-display">
-                            <div id="calculatorScreen">0</div>
-                        </div>
-                        <div class="calculator-buttons">
-                            <button class="calc-btn clear-btn" onclick="clearCalculator()">
-                                <i class="fas fa-undo"></i> Clear
-                            </button>
-                            <button class="calc-btn operator-btn" onclick="inputOperator('%')">%</button>
-                            <button class="calc-btn operator-btn" onclick="inputOperator('÷')">÷</button>
-                            
-                            <button class="calc-btn number-btn" onclick="inputNumber('7')">7</button>
-                            <button class="calc-btn number-btn" onclick="inputNumber('8')">8</button>
-                            <button class="calc-btn number-btn" onclick="inputNumber('9')">9</button>
-                            <button class="calc-btn operator-btn" onclick="inputOperator('×')">×</button>
-                            
-                            <button class="calc-btn number-btn" onclick="inputNumber('4')">4</button>
-                            <button class="calc-btn number-btn" onclick="inputNumber('5')">5</button>
-                            <button class="calc-btn number-btn" onclick="inputNumber('6')">6</button>
-                            <button class="calc-btn operator-btn" onclick="inputOperator('-')">-</button>
-                            
-                            <button class="calc-btn number-btn" onclick="inputNumber('1')">1</button>
-                            <button class="calc-btn number-btn" onclick="inputNumber('2')">2</button>
-                            <button class="calc-btn number-btn" onclick="inputNumber('3')">3</button>
-                            <button class="calc-btn operator-btn" onclick="inputOperator('+')">+</button>
-                            
-                            <button class="calc-btn number-btn zero-btn" onclick="inputNumber('0')">0</button>
-                            <button class="calc-btn number-btn" onclick="inputDecimal()">.</button>
-                            <button class="calc-btn equals-btn" onclick="calculateResult()">=</button>
-                        </div>
-                    </div>
-
-                    <div class="calculator-history">
-                        <div class="history-header">
-                            <h3>History</h3>
-                            <button onclick="clearHistory()">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                        <div id="calculatorHistory" class="history-list">
-                            <p class="no-history">No calculations yet</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Weather News Page -->
             <div id="news" class="page">
                 <div class="page-header">
-                    <h1>🇮🇳 Live India Weather News</h1>
+                    <h1>🔴 Live India Weather News</h1>
                     <p>Real-time Indian weather emergencies and breaking updates</p>
                     <div class="news-controls">
                         <span id="lastUpdated" class="last-updated">🕒 Last updated: --:--:-- IST</span>

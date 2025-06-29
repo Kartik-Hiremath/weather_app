@@ -1,11 +1,6 @@
 // Global Variables
 let currentTheme = 'dark';
 let weatherData = null;
-let calculatorDisplay = '0';
-let calculatorPreviousValue = null;
-let calculatorOperation = null;
-let calculatorWaitingForOperand = false;
-let calculatorHistory = [];
 let newsData = [];
 let newsUpdateInterval = null;
 
@@ -113,9 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     // Set initial theme
     applyTheme(currentTheme);
-    
-    // Initialize calculator
-    updateCalculatorDisplay();
     
     // Initialize regional data
     updateRegionalData('global');
@@ -346,115 +338,6 @@ function getWeatherBackgroundClass(main) {
         case 'fog': return 'weather-mist';
         default: return 'weather-default';
     }
-}
-
-// Calculator Functions
-function inputNumber(num) {
-    if (calculatorWaitingForOperand) {
-        calculatorDisplay = String(num);
-        calculatorWaitingForOperand = false;
-    } else {
-        calculatorDisplay = calculatorDisplay === '0' ? String(num) : calculatorDisplay + num;
-    }
-    updateCalculatorDisplay();
-}
-
-function inputDecimal() {
-    if (calculatorWaitingForOperand) {
-        calculatorDisplay = '0.';
-        calculatorWaitingForOperand = false;
-    } else if (calculatorDisplay.indexOf('.') === -1) {
-        calculatorDisplay = calculatorDisplay + '.';
-    }
-    updateCalculatorDisplay();
-}
-
-function inputOperator(nextOperator) {
-    const inputValue = parseFloat(calculatorDisplay);
-
-    if (calculatorPreviousValue === null) {
-        calculatorPreviousValue = inputValue;
-    } else if (calculatorOperation) {
-        const currentValue = calculatorPreviousValue || 0;
-        const newValue = performCalculation(currentValue, inputValue, calculatorOperation);
-
-        calculatorDisplay = String(newValue);
-        calculatorPreviousValue = newValue;
-        
-        // Add to history
-        const calculation = `${currentValue} ${calculatorOperation} ${inputValue} = ${newValue}`;
-        addToHistory(calculation);
-    }
-
-    calculatorWaitingForOperand = true;
-    calculatorOperation = nextOperator;
-    updateCalculatorDisplay();
-}
-
-function calculateResult() {
-    const inputValue = parseFloat(calculatorDisplay);
-
-    if (calculatorPreviousValue !== null && calculatorOperation) {
-        const newValue = performCalculation(calculatorPreviousValue, inputValue, calculatorOperation);
-        
-        // Add to history
-        const calculation = `${calculatorPreviousValue} ${calculatorOperation} ${inputValue} = ${newValue}`;
-        addToHistory(calculation);
-        
-        calculatorDisplay = String(newValue);
-        calculatorPreviousValue = null;
-        calculatorOperation = null;
-        calculatorWaitingForOperand = true;
-        updateCalculatorDisplay();
-    }
-}
-
-function performCalculation(firstValue, secondValue, operation) {
-    switch (operation) {
-        case '+': return firstValue + secondValue;
-        case '-': return firstValue - secondValue;
-        case '×': return firstValue * secondValue;
-        case '÷': return secondValue !== 0 ? firstValue / secondValue : 0;
-        case '%': return firstValue % secondValue;
-        default: return secondValue;
-    }
-}
-
-function clearCalculator() {
-    calculatorDisplay = '0';
-    calculatorPreviousValue = null;
-    calculatorOperation = null;
-    calculatorWaitingForOperand = false;
-    updateCalculatorDisplay();
-}
-
-function updateCalculatorDisplay() {
-    document.getElementById('calculatorScreen').textContent = calculatorDisplay;
-}
-
-function addToHistory(calculation) {
-    calculatorHistory.unshift(calculation);
-    if (calculatorHistory.length > 10) {
-        calculatorHistory.pop();
-    }
-    updateHistoryDisplay();
-}
-
-function updateHistoryDisplay() {
-    const historyDiv = document.getElementById('calculatorHistory');
-    
-    if (calculatorHistory.length === 0) {
-        historyDiv.innerHTML = '<p class="no-history">No calculations yet</p>';
-    } else {
-        historyDiv.innerHTML = calculatorHistory
-            .map(calc => `<div class="history-item">${calc}</div>`)
-            .join('');
-    }
-}
-
-function clearHistory() {
-    calculatorHistory = [];
-    updateHistoryDisplay();
 }
 
 // News Functions - UPDATED FOR INDIA FOCUS WITH CLEAN DISPLAY
