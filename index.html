@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather MultiApp - Production Ready</title>
+    <title>Weather MultiApp - India Weather Focus</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,7 +28,7 @@
                     </button>
                     <button class="nav-tab" data-tab="news">
                         <i class="fas fa-newspaper"></i>
-                        <span>Weather News</span>
+                        <span>India Weather News</span>
                     </button>
                     <button class="nav-tab" data-tab="trends">
                         <i class="fas fa-chart-line"></i>
@@ -54,7 +54,7 @@
                         </h1>
                         <div class="hero-divider"></div>
                         <p class="hero-description">
-                            Production-ready weather application with real-time API integration, 
+                            India-focused weather application with real-time API integration, 
                             dynamic news updates, and comprehensive climate data analysis.
                         </p>
                         <button class="hero-button" onclick="switchTab('weather')">
@@ -85,8 +85,8 @@
                             <div class="feature-icon green-gradient">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <h3>Weather News</h3>
-                            <p>Dynamic weather reports and emergency alerts with real-time updates every 3 minutes</p>
+                            <h3>India Weather News</h3>
+                            <p>Dynamic Indian weather reports and emergency alerts with real-time updates every 3 minutes</p>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon orange-gradient">
@@ -126,7 +126,7 @@
                             <div class="stat-label">Weather API Integration</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value">Dynamic</div>
+                            <div class="stat-value">India-Focused</div>
                             <div class="stat-label">News Updates Every 3min</div>
                         </div>
                         <div class="stat-card">
@@ -148,7 +148,7 @@
                     <div class="search-container">
                         <div class="search-input-wrapper">
                             <i class="fas fa-map-marker-alt search-icon"></i>
-                            <input type="text" id="locationInput" placeholder="Enter location (e.g., Tokyo, London, New York)" />
+                            <input type="text" id="locationInput" placeholder="Enter location (e.g., Mumbai, Delhi, Bangalore)" />
                         </div>
                         <button id="searchBtn" class="search-button">
                             <i class="fas fa-search"></i>
@@ -158,7 +158,7 @@
 
                 <div id="weatherError" class="error-message hidden">
                     <p>Location not found. Please try again.</p>
-                    <p class="error-hint">Try searching for major cities like Tokyo, London, or New York</p>
+                    <p class="error-hint">Try searching for Indian cities like Mumbai, Delhi, or Bangalore</p>
                 </div>
 
                 <div id="weatherDisplay" class="weather-display hidden">
@@ -166,16 +166,16 @@
                 </div>
 
                 <div id="sampleLocations" class="sample-locations">
-                    <h3>Popular Destinations</h3>
+                    <h3>Popular Indian Cities</h3>
                     <div class="location-buttons">
-                        <button class="location-btn" onclick="searchLocation('Tokyo')">Tokyo</button>
-                        <button class="location-btn" onclick="searchLocation('London')">London</button>
-                        <button class="location-btn" onclick="searchLocation('Paris')">Paris</button>
-                        <button class="location-btn" onclick="searchLocation('New York')">New York</button>
-                        <button class="location-btn" onclick="searchLocation('Seoul')">Seoul</button>
                         <button class="location-btn" onclick="searchLocation('Mumbai')">Mumbai</button>
-                        <button class="location-btn" onclick="searchLocation('Sydney')">Sydney</button>
-                        <button class="location-btn" onclick="searchLocation('Dubai')">Dubai</button>
+                        <button class="location-btn" onclick="searchLocation('Delhi')">Delhi</button>
+                        <button class="location-btn" onclick="searchLocation('Bangalore')">Bangalore</button>
+                        <button class="location-btn" onclick="searchLocation('Chennai')">Chennai</button>
+                        <button class="location-btn" onclick="searchLocation('Kolkata')">Kolkata</button>
+                        <button class="location-btn" onclick="searchLocation('Hyderabad')">Hyderabad</button>
+                        <button class="location-btn" onclick="searchLocation('Pune')">Pune</button>
+                        <button class="location-btn" onclick="searchLocation('Ahmedabad')">Ahmedabad</button>
                     </div>
                 </div>
             </div>
@@ -237,10 +237,10 @@
             <!-- Weather News Page -->
             <div id="news" class="page">
                 <div class="page-header">
-                    <h1>🔴 Live Weather News</h1>
-                    <p>Real-time weather emergencies and breaking updates</p>
+                    <h1>🇮🇳 Live India Weather News</h1>
+                    <p>Real-time Indian weather emergencies and breaking updates</p>
                     <div class="news-controls">
-                        <span id="lastUpdated" class="last-updated">🕒 Last updated: --:--:--</span>
+                        <span id="lastUpdated" class="last-updated">🕒 Last updated: --:--:-- IST</span>
                         <button id="refreshNews" class="refresh-btn">
                             <i class="fas fa-sync-alt"></i> Refresh
                         </button>
@@ -263,19 +263,19 @@
                 </div>
 
                 <div class="news-sources">
-                    <h3>🔗 Official Weather Emergency Sources</h3>
+                    <h3>🔗 Official Indian Weather Emergency Sources</h3>
                     <div class="source-buttons">
-                        <button onclick="openLink('https://www.noaa.gov/')">
-                            NOAA Alerts <i class="fas fa-external-link-alt"></i>
+                        <button onclick="openLink('https://mausam.imd.gov.in/')">
+                            IMD India <i class="fas fa-external-link-alt"></i>
                         </button>
-                        <button onclick="openLink('https://www.weather.gov/')">
-                            Weather.gov <i class="fas fa-external-link-alt"></i>
+                        <button onclick="openLink('https://cwc.gov.in/')">
+                            Central Water Commission <i class="fas fa-external-link-alt"></i>
                         </button>
-                        <button onclick="openLink('https://www.ready.gov/')">
-                            Emergency Alerts <i class="fas fa-external-link-alt"></i>
+                        <button onclick="openLink('https://incois.gov.in/')">
+                            INCOIS <i class="fas fa-external-link-alt"></i>
                         </button>
-                        <button onclick="openLink('https://www.climate.gov/')">
-                            Climate.gov <i class="fas fa-external-link-alt"></i>
+                        <button onclick="openLink('https://ndma.gov.in/')">
+                            NDMA <i class="fas fa-external-link-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -513,7 +513,7 @@
                                     <span class="slider"></span>
                                 </label>
                             </div>
-                            <p class="setting-desc">Latest weather news and reports</p>
+                            <p class="setting-desc">Latest Indian weather news and reports</p>
                         </div>
                     </div>
 

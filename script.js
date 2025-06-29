@@ -41,6 +41,67 @@ const regionalClimateData = {
     }
 };
 
+// Dynamic image selection based on weather conditions and news type
+const getNewsImage = (category, season, urgency) => {
+    const imageCategories = {
+        monsoon: [
+            "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1463530/pexels-photo-1463530.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1529360/pexels-photo-1529360.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ],
+        heat: [
+            "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1022923/pexels-photo-1022923.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ],
+        storm: [
+            "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1446076/pexels-photo-1446076.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1154510/pexels-photo-1154510.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ],
+        agriculture: [
+            "https://images.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1595104/pexels-photo-1595104.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1595108/pexels-photo-1595108.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ],
+        winter: [
+            "https://images.pexels.com/photos/1571442/pexels-photo-1571442.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1571458/pexels-photo-1571458.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ],
+        fire: [
+            "https://images.pexels.com/photos/1112080/pexels-photo-1112080.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1112086/pexels-photo-1112086.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ],
+        flood: [
+            "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1529360/pexels-photo-1529360.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ]
+    };
+
+    // Select appropriate image category based on news type
+    let selectedCategory = 'heat'; // default
+    
+    if (category.includes('Monsoon') || category.includes('flood')) {
+        selectedCategory = 'monsoon';
+    } else if (category.includes('Heat') || category.includes('temperature')) {
+        selectedCategory = 'heat';
+    } else if (category.includes('Storm') || category.includes('Cyclone')) {
+        selectedCategory = 'storm';
+    } else if (category.includes('Agriculture')) {
+        selectedCategory = 'agriculture';
+    } else if (category.includes('Mountain') || season === 'winter') {
+        selectedCategory = 'winter';
+    } else if (category.includes('Fire')) {
+        selectedCategory = 'fire';
+    } else if (category.includes('flood')) {
+        selectedCategory = 'flood';
+    }
+
+    const images = imageCategories[selectedCategory];
+    return images[Math.floor(Math.random() * images.length)];
+};
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
@@ -396,7 +457,7 @@ function clearHistory() {
     updateHistoryDisplay();
 }
 
-// News Functions
+// News Functions - UPDATED FOR INDIA FOCUS WITH CLEAN DISPLAY
 function generateWeatherNews() {
     const loadingDiv = document.getElementById('newsLoading');
     const contentDiv = document.getElementById('newsContent');
@@ -408,85 +469,127 @@ function generateWeatherNews() {
         const currentDate = new Date();
         const hour = currentDate.getHours();
         const month = currentDate.getMonth();
-        const season = month >= 3 && month <= 5 ? 'spring' : 
-                       month >= 6 && month <= 8 ? 'summer' : 
-                       month >= 9 && month <= 11 ? 'autumn' : 'winter';
         
+        // Indian seasons and monsoon patterns
+        const season = month >= 3 && month <= 5 ? 'pre-monsoon' : 
+                       month >= 6 && month <= 9 ? 'monsoon' : 
+                       month >= 10 && month <= 11 ? 'post-monsoon' : 'winter';
+        
+        // Indian cities for weather focus
+        const indianCities = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata', 'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow'];
+        const randomCity = indianCities[Math.floor(Math.random() * indianCities.length)];
+        
+        // India-focused news templates with some catastrophic world news
         const newsTemplates = [
+            // Indian Weather News (70% of content)
             {
                 id: 1,
-                title: `${season === 'summer' ? 'Heat Wave Alert' : season === 'winter' ? 'Winter Storm Watch' : 'Severe Weather Alert'}: ${season.charAt(0).toUpperCase() + season.slice(1)} Conditions Intensify`,
-                summary: `Current ${season} weather patterns show ${season === 'summer' ? 'record-breaking temperatures' : season === 'winter' ? 'heavy snowfall and freezing conditions' : 'unpredictable weather changes'} affecting multiple regions. Emergency services are on high alert.`,
-                source: "National Hurricane Center",
-                url: "https://www.nhc.noaa.gov/",
-                category: "Severe Weather",
-                image: season === 'summer' ? "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800" :
-                       season === 'winter' ? "https://images.pexels.com/photos/1571442/pexels-photo-1571442.jpeg?auto=compress&cs=tinysrgb&w=800" :
-                       "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg?auto=compress&cs=tinysrgb&w=800",
-                urgency: 'HIGH'
+                title: `${season === 'monsoon' ? 'Monsoon Alert' : season === 'pre-monsoon' ? 'Heat Wave Warning' : season === 'post-monsoon' ? 'Cyclone Watch' : 'Winter Fog Advisory'}: ${randomCity} and Surrounding Regions`,
+                summary: `India Meteorological Department (IMD) reports ${season === 'monsoon' ? 'heavy rainfall and flooding risks' : season === 'pre-monsoon' ? 'extreme heat conditions reaching 45°C+' : season === 'post-monsoon' ? 'cyclonic formations in Bay of Bengal' : 'dense fog affecting North India'} across ${randomCity} and neighboring states. Emergency protocols activated.`,
+                source: "India Meteorological Department (IMD)",
+                url: "https://mausam.imd.gov.in/",
+                category: "India Weather Alert",
+                urgency: 'HIGH',
+                region: 'India'
             },
             {
                 id: 2,
-                title: `${hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening'} Weather Update: Real-Time Conditions at ${hour}:${currentDate.getMinutes().toString().padStart(2, '0')}`,
-                summary: `Live weather monitoring shows ${Math.random() > 0.5 ? 'improving' : 'deteriorating'} conditions across major metropolitan areas. Temperature readings indicate ${season === 'summer' ? 'heat stress warnings' : season === 'winter' ? 'frost advisories' : 'variable conditions'}.`,
-                source: "National Weather Service",
-                url: "https://www.weather.gov/",
-                category: "Live Update",
-                image: hour < 12 ? "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg?auto=compress&cs=tinysrgb&w=800" :
-                       hour < 18 ? "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800" :
-                       "https://images.pexels.com/photos/1571442/pexels-photo-1571442.jpeg?auto=compress&cs=tinysrgb&w=800",
-                urgency: 'MEDIUM'
+                title: `Breaking: ${randomCity} Records ${season === 'pre-monsoon' ? 'Highest' : 'Unusual'} Temperature at ${hour}:${currentDate.getMinutes().toString().padStart(2, '0')} IST`,
+                summary: `Live monitoring from IMD weather stations shows ${Math.random() > 0.5 ? 'record-breaking' : 'unusual'} temperature readings in ${randomCity}. ${season === 'monsoon' ? 'Monsoon patterns disrupted' : season === 'pre-monsoon' ? 'Heat wave conditions intensifying' : 'Unexpected weather variations'} affecting daily life and agriculture.`,
+                source: "National Weather Service India",
+                url: "https://mausam.imd.gov.in/",
+                category: "India Live Update",
+                urgency: 'MEDIUM',
+                region: 'India'
             },
             {
                 id: 3,
-                title: `Storm Tracking Alert: ${Math.floor(Math.random() * 3) + 2} Active Weather Systems Detected`,
-                summary: `Advanced radar systems are tracking multiple storm formations with ${Math.random() > 0.5 ? 'increasing' : 'decreasing'} intensity. Meteorologists report ${season === 'summer' ? 'thunderstorm development' : season === 'winter' ? 'blizzard conditions' : 'mixed precipitation'} expected.`,
-                source: "Storm Prediction Center",
-                url: "https://www.spc.noaa.gov/",
-                category: "Storm Alert",
-                image: "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&w=800",
-                urgency: 'HIGH'
+                title: `Monsoon Update: ${Math.floor(Math.random() * 5) + 3} States Under ${season === 'monsoon' ? 'Heavy Rainfall' : 'Weather'} Alert`,
+                summary: `Central Water Commission and IMD issue joint advisory for ${season === 'monsoon' ? 'flood-prone areas across Kerala, Karnataka, Maharashtra, Gujarat, and Rajasthan' : 'weather disturbances affecting multiple Indian states'}. River levels rising in major basins. Disaster management teams deployed.`,
+                source: "Central Water Commission India",
+                url: "https://cwc.gov.in/",
+                category: "India Monsoon Alert",
+                urgency: 'HIGH',
+                region: 'India'
             },
             {
                 id: 4,
-                title: `Climate Emergency: ${currentDate.getFullYear()} Temperature Records ${Math.random() > 0.5 ? 'Shattered' : 'Approaching Historic Levels'}`,
-                summary: `Latest climate data reveals ${currentDate.getFullYear()} is ${Math.random() > 0.5 ? 'on track to be the hottest year' : 'showing unprecedented warming trends'} on record. Scientists warn of accelerating climate change impacts.`,
-                source: "NOAA Climate.gov",
-                url: "https://www.climate.gov/",
-                category: "Climate Emergency",
-                image: "https://images.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg?auto=compress&cs=tinysrgb&w=800",
-                urgency: 'NORMAL'
+                title: `Agricultural Emergency: ${season} Weather Patterns Threaten Kharif/Rabi Crops Across India`,
+                summary: `Ministry of Agriculture reports ${season === 'monsoon' ? 'excess rainfall damaging standing crops' : season === 'pre-monsoon' ? 'drought conditions affecting sowing' : 'unseasonal weather threatening harvest'} in major agricultural states. Farmer support measures announced. Food security concerns raised.`,
+                source: "Ministry of Agriculture & Farmers Welfare",
+                url: "https://agricoop.nic.in/",
+                category: "India Agriculture Alert",
+                urgency: 'HIGH',
+                region: 'India'
             },
             {
                 id: 5,
-                title: `${currentDate.toLocaleDateString()} Flash Weather Briefing: Urgent Regional Updates`,
-                summary: `Emergency weather briefing issued for ${hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening'} conditions. ${season === 'summer' ? 'Heat emergency protocols' : season === 'winter' ? 'Cold weather advisories' : 'Weather warnings'} now in effect for multiple states.`,
-                source: "Emergency Alert System",
-                url: "https://www.weather.gov/",
-                category: "Emergency Alert",
-                image: season === 'summer' ? "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg?auto=compress&cs=tinysrgb&w=800" :
-                       "https://images.pexels.com/photos/1571442/pexels-photo-1571442.jpeg?auto=compress&cs=tinysrgb&w=800",
-                urgency: 'HIGH'
+                title: `Cyclone Watch: Bay of Bengal Disturbance Threatens East Coast - Odisha, Andhra Pradesh on Alert`,
+                summary: `Indian National Centre for Ocean Information Services (INCOIS) tracks ${Math.random() > 0.5 ? 'developing cyclonic circulation' : 'low pressure system'} in Bay of Bengal. Coastal states of Odisha, Andhra Pradesh, and West Bengal prepare for potential landfall. Fishing operations suspended.`,
+                source: "Indian National Centre for Ocean Information Services",
+                url: "https://incois.gov.in/",
+                category: "India Cyclone Alert",
+                urgency: 'HIGH',
+                region: 'India'
             },
             {
                 id: 6,
-                title: `Breaking: ${Math.random() > 0.5 ? 'Drought' : 'Flood'} Conditions Escalate - Agricultural Impact Severe`,
-                summary: `Critical ${Math.random() > 0.5 ? 'water shortage' : 'flooding'} situation develops as ${season} weather patterns create ${Math.random() > 0.5 ? 'unprecedented dry conditions' : 'excessive rainfall'} affecting crop yields and water supplies nationwide.`,
-                source: "US Drought Monitor",
-                url: "https://droughtmonitor.unl.edu/",
-                category: "Agricultural Alert",
-                image: Math.random() > 0.5 ? 
-                       "https://images.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg?auto=compress&cs=tinysrgb&w=800" :
-                       "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=800",
-                urgency: 'MEDIUM'
+                title: `Himalayan Weather Alert: Uttarakhand, Himachal Pradesh Face ${season === 'winter' ? 'Heavy Snowfall' : 'Extreme Weather'} Conditions`,
+                summary: `High altitude weather stations report ${season === 'winter' ? 'unprecedented snowfall blocking major highways and pilgrimage routes' : 'dangerous weather conditions in mountainous regions'}. Rescue operations underway. Tourist advisories issued for hill stations.`,
+                source: "India Meteorological Department - Mountain Division",
+                url: "https://mausam.imd.gov.in/",
+                category: "India Mountain Weather",
+                urgency: 'MEDIUM',
+                region: 'India'
+            },
+            
+            // Catastrophic World News (30% of content)
+            {
+                id: 7,
+                title: `GLOBAL CATASTROPHE: ${Math.random() > 0.5 ? 'Category 5 Hurricane' : 'Unprecedented Typhoon'} Devastates ${Math.random() > 0.5 ? 'Caribbean Islands' : 'Philippines'} - International Aid Requested`,
+                summary: `Catastrophic ${Math.random() > 0.5 ? 'Hurricane with 200+ mph winds' : 'Super Typhoon'} causes unprecedented destruction. Millions without power, entire cities evacuated. International disaster response teams mobilized. Climate scientists call it "worst storm in recorded history."`,
+                source: "World Meteorological Organization",
+                url: "https://public.wmo.int/",
+                category: "Global Catastrophe",
+                urgency: 'HIGH',
+                region: 'World'
+            },
+            {
+                id: 8,
+                title: `BREAKING: Massive Wildfires Engulf ${Math.random() > 0.5 ? 'California' : 'Australia'} - State of Emergency Declared`,
+                summary: `Unprecedented wildfire emergency as ${Math.random() > 0.5 ? 'multiple mega-fires merge in California' : 'bushfires rage across Australian states'}. Thousands evacuated, air quality reaches hazardous levels. International firefighting assistance requested. Climate change blamed for intensity.`,
+                source: "International Association of Fire Chiefs",
+                url: "https://www.iafc.org/",
+                category: "Global Fire Emergency",
+                urgency: 'HIGH',
+                region: 'World'
+            },
+            {
+                id: 9,
+                title: `ARCTIC EMERGENCY: Unprecedented Ice Sheet Collapse in ${Math.random() > 0.5 ? 'Greenland' : 'Antarctica'} Triggers Global Sea Level Concerns`,
+                summary: `Satellite imagery reveals catastrophic ice sheet collapse affecting global sea levels. Coastal cities worldwide on high alert. Emergency climate summit called. Scientists warn of "irreversible tipping point" reached. Immediate global action demanded.`,
+                source: "Intergovernmental Panel on Climate Change",
+                url: "https://www.ipcc.ch/",
+                category: "Global Climate Emergency",
+                urgency: 'HIGH',
+                region: 'World'
             }
         ];
 
-        newsData = newsTemplates
+        // Prioritize Indian news (70%) with some world catastrophic news (30%)
+        const indianNews = newsTemplates.filter(news => news.region === 'India');
+        const worldNews = newsTemplates.filter(news => news.region === 'World');
+        
+        // Select 4-5 Indian news and 2-3 world catastrophic news
+        const selectedIndianNews = indianNews.slice(0, Math.floor(Math.random() * 2) + 4);
+        const selectedWorldNews = worldNews.slice(0, Math.floor(Math.random() * 2) + 2);
+        
+        newsData = [...selectedIndianNews, ...selectedWorldNews]
             .map(news => ({
                 ...news,
                 date: new Date(currentDate.getTime() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                timestamp: new Date(currentDate.getTime() - Math.random() * 24 * 60 * 60 * 1000)
+                timestamp: new Date(currentDate.getTime() - Math.random() * 24 * 60 * 60 * 1000),
+                image: getNewsImage(news.category, season, news.urgency)
             }))
             .sort((a, b) => b.timestamp - a.timestamp);
 
@@ -509,7 +612,7 @@ function displayNews() {
     featuredDiv.innerHTML = `
         <div class="featured-article" onclick="openLink('${featured.url}')">
             <div class="breaking-banner">
-                ${getUrgencyIndicator(featured.urgency)} - BREAKING NEWS
+                ${getUrgencyIndicator(featured.urgency)} - ${featured.region === 'India' ? 'INDIA' : 'WORLD'} BREAKING NEWS
             </div>
             <img src="${featured.image}" alt="${featured.title}" class="article-image">
             <div class="article-content">
@@ -531,7 +634,7 @@ function displayNews() {
     // News grid (remaining articles)
     gridDiv.innerHTML = newsData.slice(1).map(news => `
         <div class="news-article" onclick="openLink('${news.url}')">
-            ${news.urgency === 'HIGH' ? '<div class="urgent-badge">🚨 URGENT</div>' : ''}
+            ${news.urgency === 'HIGH' ? `<div class="urgent-badge">🚨 ${news.region === 'India' ? 'INDIA' : 'WORLD'} URGENT</div>` : ''}
             <img src="${news.image}" alt="${news.title}" class="article-image">
             <div class="article-content">
                 <h3 class="article-title">${news.title}</h3>
@@ -562,6 +665,15 @@ function getUrgencyIndicator(urgency) {
 
 function getCategoryGradient(category) {
     const gradients = {
+        'India Weather Alert': 'linear-gradient(135deg, #ff6b35, #f7931e)',
+        'India Live Update': 'linear-gradient(135deg, #138808, #0d5f0a)',
+        'India Monsoon Alert': 'linear-gradient(135deg, #1e40af, #1e3a8a)',
+        'India Agriculture Alert': 'linear-gradient(135deg, #059669, #047857)',
+        'India Cyclone Alert': 'linear-gradient(135deg, #7c3aed, #5b21b6)',
+        'India Mountain Weather': 'linear-gradient(135deg, #0891b2, #0e7490)',
+        'Global Catastrophe': 'linear-gradient(135deg, #dc2626, #b91c1c)',
+        'Global Fire Emergency': 'linear-gradient(135deg, #ea580c, #c2410c)',
+        'Global Climate Emergency': 'linear-gradient(135deg, #7c2d12, #451a03)',
         'Severe Weather': 'linear-gradient(135deg, #ef4444, #f59e0b)',
         'Live Update': 'linear-gradient(135deg, #3b82f6, #06b6d4)',
         'Storm Alert': 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
@@ -575,7 +687,7 @@ function getCategoryGradient(category) {
 function updateLastUpdated() {
     const lastUpdatedSpan = document.getElementById('lastUpdated');
     if (lastUpdatedSpan) {
-        lastUpdatedSpan.textContent = `🕒 Last updated: ${new Date().toLocaleTimeString()}`;
+        lastUpdatedSpan.textContent = `🕒 Last updated: ${new Date().toLocaleTimeString()} IST`;
     }
 }
 
