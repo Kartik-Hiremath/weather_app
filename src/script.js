@@ -74,20 +74,24 @@ const getNewsImage = (category, season, urgency) => {
         ]
     };
 
-    const categoryMap = {
-        'Monsoon': 'monsoon',
-        'flood': 'monsoon',
-        'Heat': 'heat',
-        'temperature': 'heat',
-        'Storm': 'storm',
-        'Cyclone': 'storm',
-        'Agriculture': 'agriculture',
-        'Mountain': 'winter',
-        'winter': 'winter',
-        'Fire': 'fire'
-    };
-
-    const selectedCategory = Object.keys(categoryMap).find(key => category.includes(key)) || 'heat';
+    // Select appropriate image category based on news type
+    let selectedCategory = 'heat'; // default
+    
+    if (category.includes('Monsoon') || category.includes('flood')) {
+        selectedCategory = 'monsoon';
+    } else if (category.includes('Heat') || category.includes('temperature')) {
+        selectedCategory = 'heat';
+    } else if (category.includes('Storm') || category.includes('Cyclone')) {
+        selectedCategory = 'storm';
+    } else if (category.includes('Agriculture')) {
+        selectedCategory = 'agriculture';
+    } else if (category.includes('Mountain') || season === 'winter') {
+        selectedCategory = 'winter';
+    } else if (category.includes('Fire')) {
+        selectedCategory = 'fire';
+    } else if (category.includes('flood')) {
+        selectedCategory = 'flood';
+    }
 
     const images = imageCategories[selectedCategory];
     return images[Math.floor(Math.random() * images.length)];
@@ -207,7 +211,7 @@ async function searchWeather() {
     displayDiv.classList.add('hidden');
     
     try {
-        const API_KEY = 'a1678514234882f652831565f1f9c185'; // Replace with your OpenWeatherMap API key
+        const API_KEY = 'a1678514234882f652831565f1f9c185';
         const response = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`
         );
@@ -336,116 +340,6 @@ function getWeatherBackgroundClass(main) {
     }
 }
 
-function getSeason(month) {
-    if (month >= 3 && month <= 5) return 'pre-monsoon';
-    if (month >= 6 && month <= 9) return 'monsoon';
-    if (month >= 10 && month <= 11) return 'post-monsoon';
-    return 'winter';
-}
-
-function getRandomCity() {
-    const indianCities = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata', 'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow'];
-    return indianCities[Math.floor(Math.random() * indianCities.length)];
-}
-
-function getNewsTemplates(season, randomCity, hour, currentDate) {
-    return [
-        // Indian Weather News (70% of content)
-        {
-            id: 1,
-            title: `${season === 'monsoon' ? 'Monsoon Alert' : season === 'pre-monsoon' ? 'Heat Wave Warning' : season === 'post-monsoon' ? 'Cyclone Watch' : 'Winter Fog Advisory'}: ${randomCity} and Surrounding Regions`,
-            summary: `India Meteorological Department (IMD) reports ${season === 'monsoon' ? 'heavy rainfall and flooding risks' : season === 'pre-monsoon' ? 'extreme heat conditions reaching 45°C+' : season === 'post-monsoon' ? 'cyclonic formations in Bay of Bengal' : 'dense fog affecting North India'} across ${randomCity} and neighboring states. Emergency protocols activated.`,
-            source: "India Meteorological Department (IMD)",
-            url: "https://mausam.imd.gov.in/",
-            category: "India Weather Alert",
-            urgency: 'HIGH',
-            region: 'India'
-        },
-        {
-            id: 2,
-            title: `Breaking: ${randomCity} Records ${season === 'pre-monsoon' ? 'Highest' : 'Unusual'} Temperature at ${hour}:${currentDate.getMinutes().toString().padStart(2, '0')} IST`,
-            summary: `Live monitoring from IMD weather stations shows ${Math.random() > 0.5 ? 'record-breaking' : 'unusual'} temperature readings in ${randomCity}. ${season === 'monsoon' ? 'Monsoon patterns disrupted' : season === 'pre-monsoon' ? 'Heat wave conditions intensifying' : 'Unexpected weather variations'} affecting daily life and agriculture.`,
-            source: "National Weather Service India",
-            url: "https://mausam.imd.gov.in/",
-            category: "India Live Update",
-            urgency: 'MEDIUM',
-            region: 'India'
-        },
-        {
-            id: 3,
-            title: `Monsoon Update: ${Math.floor(Math.random() * 5) + 3} States Under ${season === 'monsoon' ? 'Heavy Rainfall' : 'Weather'} Alert`,
-            summary: `Central Water Commission and IMD issue joint advisory for ${season === 'monsoon' ? 'flood-prone areas across Kerala, Karnataka, Maharashtra, Gujarat, and Rajasthan' : 'weather disturbances affecting multiple Indian states'}. River levels rising in major basins. Disaster management teams deployed.`,
-            source: "Central Water Commission India",
-            url: "https://cwc.gov.in/",
-            category: "India Monsoon Alert",
-            urgency: 'HIGH',
-            region: 'India'
-        },
-        {
-            id: 4,
-            title: `Agricultural Emergency: ${season} Weather Patterns Threaten Kharif/Rabi Crops Across India`,
-            summary: `Ministry of Agriculture reports ${season === 'monsoon' ? 'excess rainfall damaging standing crops' : season === 'pre-monsoon' ? 'drought conditions affecting sowing' : 'unseasonal weather threatening harvest'} in major agricultural states. Farmer support measures announced. Food security concerns raised.`,
-            source: "Ministry of Agriculture & Farmers Welfare",
-            url: "https://agricoop.nic.in/",
-            category: "India Agriculture Alert",
-            urgency: 'HIGH',
-            region: 'India'
-        },
-        {
-            id: 5,
-            title: `Cyclone Watch: Bay of Bengal Disturbance Threatens East Coast - Odisha, Andhra Pradesh on Alert`,
-            summary: `Indian National Centre for Ocean Information Services (INCOIS) tracks ${Math.random() > 0.5 ? 'developing cyclonic circulation' : 'low pressure system'} in Bay of Bengal. Coastal states of Odisha, Andhra Pradesh, and West Bengal prepare for potential landfall. Fishing operations suspended.`,
-            source: "Indian National Centre for Ocean Information Services",
-            url: "https://incois.gov.in/",
-            category: "India Cyclone Alert",
-            urgency: 'HIGH',
-            region: 'India'
-        },
-        {
-            id: 6,
-            title: `Himalayan Weather Alert: Uttarakhand, Himachal Pradesh Face ${season === 'winter' ? 'Heavy Snowfall' : 'Extreme Weather'} Conditions`,
-            summary: `High altitude weather stations report ${season === 'winter' ? 'unprecedented snowfall blocking major highways and pilgrimage routes' : 'dangerous weather conditions in mountainous regions'}. Rescue operations underway. Tourist advisories issued for hill stations.`,
-            source: "India Meteorological Department - Mountain Division",
-            url: "https://mausam.imd.gov.in/",
-            category: "India Mountain Weather",
-            urgency: 'MEDIUM',
-            region: 'India'
-        },
-        
-        // Catastrophic World News (30% of content)
-        {
-            id: 7,
-            title: `GLOBAL CATASTROPHE: ${Math.random() > 0.5 ? 'Category 5 Hurricane' : 'Unprecedented Typhoon'} Devastates ${Math.random() > 0.5 ? 'Caribbean Islands' : 'Philippines'} - International Aid Requested`,
-            summary: `Catastrophic ${Math.random() > 0.5 ? 'Hurricane with 200+ mph winds' : 'Super Typhoon'} causes unprecedented destruction. Millions without power, entire cities evacuated. International disaster response teams mobilized. Climate scientists call it "worst storm in recorded history."`,
-            source: "World Meteorological Organization",
-            url: "https://public.wmo.int/",
-            category: "Global Catastrophe",
-            urgency: 'HIGH',
-            region: 'World'
-        },
-        {
-            id: 8,
-            title: `BREAKING: Massive Wildfires Engulf ${Math.random() > 0.5 ? 'California' : 'Australia'} - State of Emergency Declared`,
-            summary: `Unprecedented wildfire emergency as ${Math.random() > 0.5 ? 'multiple mega-fires merge in California' : 'bushfires rage across Australian states'}. Thousands evacuated, air quality reaches hazardous levels. International firefighting assistance requested. Climate change blamed for intensity.`,
-            source: "International Association of Fire Chiefs",
-            url: "https://www.iafc.org/",
-            category: "Global Fire Emergency",
-            urgency: 'HIGH',
-            region: 'World'
-        },
-        {
-            id: 9,
-            title: `ARCTIC EMERGENCY: Unprecedented Ice Sheet Collapse in ${Math.random() > 0.5 ? 'Greenland' : 'Antarctica'} Triggers Global Sea Level Concerns`,
-            summary: `Satellite imagery reveals catastrophic ice sheet collapse affecting global sea levels. Coastal cities worldwide on high alert. Emergency climate summit called. Scientists warn of "irreversible tipping point" reached. Immediate global action demanded.`,
-            source: "Intergovernmental Panel on Climate Change",
-            url: "https://www.ipcc.ch/",
-            category: "Global Climate Emergency",
-            urgency: 'HIGH',
-            region: 'World'
-        }
-    ];
-}
-
 // News Functions - UPDATED FOR INDIA FOCUS WITH CLEAN DISPLAY
 function generateWeatherNews() {
     const loadingDiv = document.getElementById('newsLoading');
@@ -457,10 +351,113 @@ function generateWeatherNews() {
     setTimeout(() => {
         const currentDate = new Date();
         const hour = currentDate.getHours();
-        const season = getSeason(currentDate.getMonth());
-        const randomCity = getRandomCity();
+        const month = currentDate.getMonth();
         
-        const newsTemplates = getNewsTemplates(season, randomCity, hour, currentDate);
+        // Indian seasons and monsoon patterns
+        const season = month >= 3 && month <= 5 ? 'pre-monsoon' : 
+                       month >= 6 && month <= 9 ? 'monsoon' : 
+                       month >= 10 && month <= 11 ? 'post-monsoon' : 'winter';
+        
+        // Indian cities for weather focus
+        const indianCities = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata', 'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow'];
+        const randomCity = indianCities[Math.floor(Math.random() * indianCities.length)];
+        
+        // India-focused news templates with some catastrophic world news
+        const newsTemplates = [
+            // Indian Weather News (70% of content)
+            {
+                id: 1,
+                title: `${season === 'monsoon' ? 'Monsoon Alert' : season === 'pre-monsoon' ? 'Heat Wave Warning' : season === 'post-monsoon' ? 'Cyclone Watch' : 'Winter Fog Advisory'}: ${randomCity} and Surrounding Regions`,
+                summary: `India Meteorological Department (IMD) reports ${season === 'monsoon' ? 'heavy rainfall and flooding risks' : season === 'pre-monsoon' ? 'extreme heat conditions reaching 45°C+' : season === 'post-monsoon' ? 'cyclonic formations in Bay of Bengal' : 'dense fog affecting North India'} across ${randomCity} and neighboring states. Emergency protocols activated.`,
+                source: "India Meteorological Department (IMD)",
+                url: "https://mausam.imd.gov.in/",
+                category: "India Weather Alert",
+                urgency: 'HIGH',
+                region: 'India'
+            },
+            {
+                id: 2,
+                title: `Breaking: ${randomCity} Records ${season === 'pre-monsoon' ? 'Highest' : 'Unusual'} Temperature at ${hour}:${currentDate.getMinutes().toString().padStart(2, '0')} IST`,
+                summary: `Live monitoring from IMD weather stations shows ${Math.random() > 0.5 ? 'record-breaking' : 'unusual'} temperature readings in ${randomCity}. ${season === 'monsoon' ? 'Monsoon patterns disrupted' : season === 'pre-monsoon' ? 'Heat wave conditions intensifying' : 'Unexpected weather variations'} affecting daily life and agriculture.`,
+                source: "National Weather Service India",
+                url: "https://mausam.imd.gov.in/",
+                category: "India Live Update",
+                urgency: 'MEDIUM',
+                region: 'India'
+            },
+            {
+                id: 3,
+                title: `Monsoon Update: ${Math.floor(Math.random() * 5) + 3} States Under ${season === 'monsoon' ? 'Heavy Rainfall' : 'Weather'} Alert`,
+                summary: `Central Water Commission and IMD issue joint advisory for ${season === 'monsoon' ? 'flood-prone areas across Kerala, Karnataka, Maharashtra, Gujarat, and Rajasthan' : 'weather disturbances affecting multiple Indian states'}. River levels rising in major basins. Disaster management teams deployed.`,
+                source: "Central Water Commission India",
+                url: "https://cwc.gov.in/",
+                category: "India Monsoon Alert",
+                urgency: 'HIGH',
+                region: 'India'
+            },
+            {
+                id: 4,
+                title: `Agricultural Emergency: ${season} Weather Patterns Threaten Kharif/Rabi Crops Across India`,
+                summary: `Ministry of Agriculture reports ${season === 'monsoon' ? 'excess rainfall damaging standing crops' : season === 'pre-monsoon' ? 'drought conditions affecting sowing' : 'unseasonal weather threatening harvest'} in major agricultural states. Farmer support measures announced. Food security concerns raised.`,
+                source: "Ministry of Agriculture & Farmers Welfare",
+                url: "https://agricoop.nic.in/",
+                category: "India Agriculture Alert",
+                urgency: 'HIGH',
+                region: 'India'
+            },
+            {
+                id: 5,
+                title: `Cyclone Watch: Bay of Bengal Disturbance Threatens East Coast - Odisha, Andhra Pradesh on Alert`,
+                summary: `Indian National Centre for Ocean Information Services (INCOIS) tracks ${Math.random() > 0.5 ? 'developing cyclonic circulation' : 'low pressure system'} in Bay of Bengal. Coastal states of Odisha, Andhra Pradesh, and West Bengal prepare for potential landfall. Fishing operations suspended.`,
+                source: "Indian National Centre for Ocean Information Services",
+                url: "https://incois.gov.in/",
+                category: "India Cyclone Alert",
+                urgency: 'HIGH',
+                region: 'India'
+            },
+            {
+                id: 6,
+                title: `Himalayan Weather Alert: Uttarakhand, Himachal Pradesh Face ${season === 'winter' ? 'Heavy Snowfall' : 'Extreme Weather'} Conditions`,
+                summary: `High altitude weather stations report ${season === 'winter' ? 'unprecedented snowfall blocking major highways and pilgrimage routes' : 'dangerous weather conditions in mountainous regions'}. Rescue operations underway. Tourist advisories issued for hill stations.`,
+                source: "India Meteorological Department - Mountain Division",
+                url: "https://mausam.imd.gov.in/",
+                category: "India Mountain Weather",
+                urgency: 'MEDIUM',
+                region: 'India'
+            },
+            
+            // Catastrophic World News (30% of content)
+            {
+                id: 7,
+                title: `GLOBAL CATASTROPHE: ${Math.random() > 0.5 ? 'Category 5 Hurricane' : 'Unprecedented Typhoon'} Devastates ${Math.random() > 0.5 ? 'Caribbean Islands' : 'Philippines'} - International Aid Requested`,
+                summary: `Catastrophic ${Math.random() > 0.5 ? 'Hurricane with 200+ mph winds' : 'Super Typhoon'} causes unprecedented destruction. Millions without power, entire cities evacuated. International disaster response teams mobilized. Climate scientists call it "worst storm in recorded history."`,
+                source: "World Meteorological Organization",
+                url: "https://public.wmo.int/",
+                category: "Global Catastrophe",
+                urgency: 'HIGH',
+                region: 'World'
+            },
+            {
+                id: 8,
+                title: `BREAKING: Massive Wildfires Engulf ${Math.random() > 0.5 ? 'California' : 'Australia'} - State of Emergency Declared`,
+                summary: `Unprecedented wildfire emergency as ${Math.random() > 0.5 ? 'multiple mega-fires merge in California' : 'bushfires rage across Australian states'}. Thousands evacuated, air quality reaches hazardous levels. International firefighting assistance requested. Climate change blamed for intensity.`,
+                source: "International Association of Fire Chiefs",
+                url: "https://www.iafc.org/",
+                category: "Global Fire Emergency",
+                urgency: 'HIGH',
+                region: 'World'
+            },
+            {
+                id: 9,
+                title: `ARCTIC EMERGENCY: Unprecedented Ice Sheet Collapse in ${Math.random() > 0.5 ? 'Greenland' : 'Antarctica'} Triggers Global Sea Level Concerns`,
+                summary: `Satellite imagery reveals catastrophic ice sheet collapse affecting global sea levels. Coastal cities worldwide on high alert. Emergency climate summit called. Scientists warn of "irreversible tipping point" reached. Immediate global action demanded.`,
+                source: "Intergovernmental Panel on Climate Change",
+                url: "https://www.ipcc.ch/",
+                category: "Global Climate Emergency",
+                urgency: 'HIGH',
+                region: 'World'
+            }
+        ];
 
         // Prioritize Indian news (70%) with some world catastrophic news (30%)
         const indianNews = newsTemplates.filter(news => news.region === 'India');
