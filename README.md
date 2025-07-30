@@ -1,13 +1,13 @@
-# Weather MultiApp - India Weather Focus 🇮🇳 🌦️
+# Weather MultiApp - India Weather Focus 🇮🇳
 
 A production-ready, India-focused weather application with real-time weather data, dynamic news updates, and climate trends analysis. Built with vanilla HTML, CSS, and JavaScript for optimal performance and deployment.
 
-## 🚀 Live Demo
+## Live Demo
 **Deployed at:** [weather-app-8k4q.onrender.com](https://weather-app-8k4q.onrender.com)
 
-## ✨ Key Features
+## Key Features
 
-### 🇮🇳 India Weather Focus (70% Content)
+### India Weather Focus
 - **Real-time Indian Weather Data** via OpenWeatherMap API
 - **IMD Integration** - India Meteorological Department alerts
 - **Monsoon Tracking** - Seasonal weather patterns and alerts
@@ -16,18 +16,18 @@ A production-ready, India-focused weather application with real-time weather dat
 - **Cyclone Monitoring** - Bay of Bengal and Arabian Sea tracking
 - **Mountain Weather** - Himalayan conditions and tourist advisories
 
-### 🌍 Global Catastrophic Events (30% Content)
+### Global Catastrophic Events
 - **Major Disasters Only** - Hurricanes, wildfires, ice sheet collapse
 - **International Emergency Response** - Global climate emergencies
 - **Climate Change Impact** - Unprecedented weather events worldwide
 
-### 📊 Advanced Features
+### Advanced Features
 - **Climate Trends** - Global and regional climate analysis
 - **Theme Support** - Dark/Light/Auto modes with system preference detection
 - **Responsive Design** - Optimized for all devices
 - **Real-time Updates** - News refreshes every 3 minutes
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Frontend
 - **HTML5** - Semantic markup and accessibility
@@ -50,7 +50,7 @@ A production-ready, India-focused weather application with real-time weather dat
 - **INCOIS** - Cyclone and ocean information
 - **NDMA** - National Disaster Management Authority
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 weather_app/
@@ -67,7 +67,7 @@ weather_app/
 └── README.md              # Project documentation
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Modern web browser (Chrome, Firefox, Safari, Edge)
@@ -99,7 +99,7 @@ VITE_OPENWEATHER_API_KEY=your_openweathermap_api_key
 NODE_ENV=production
 ```
 
-## 🔧 DevOps Pipeline
+## DevOps Pipeline
 
 ### Docker Configuration
 ```dockerfile
@@ -132,16 +132,16 @@ sonar.exclusions=**/node_modules/**,**/dist/**
 sonar.typescript.lcov.reportPaths=coverage/lcov.info
 ```
 
-## 📱 Features in Detail
+## Features in Detail
 
-### 🇮🇳 India Weather Page
+### India Weather Page
 - **Search Functionality** - Any Indian city or global location
 - **Real-time Conditions** - Temperature, humidity, wind speed
 - **Detailed Metrics** - Visibility, pressure, feels-like temperature
 - **Dynamic Icons** - Weather condition visualization
 - **Indian City Suggestions** - Quick access to major cities
 
-### 📰 India Weather News Page
+### India Weather News Page
 - **70% Indian Content** - IMD alerts, monsoon updates, regional weather
 - **30% Global Catastrophes** - Major international disasters only
 - **Auto-refresh** - Updates every 3 minutes
@@ -150,19 +150,19 @@ sonar.typescript.lcov.reportPaths=coverage/lcov.info
 - **Dynamic Images** - Weather-appropriate visuals
 - **Clean Display** - No unnecessary flags or clutter
 
-### 📊 Climate Trends Page
+### Climate Trends Page
 - **Global Indicators** - Temperature, sea level, CO2 levels
 - **Regional Analysis** - India, North America, Europe, Asia
 - **Official Reports** - IPCC, NOAA, EPA data sources
 - **Interactive Charts** - Climate data visualization
 
-### ⚙️ Settings Page
+### Settings Page
 - **Theme Control** - Dark/Light/Auto modes
 - **Notification Preferences** - Email, weather, news alerts
 - **Privacy Settings** - Profile and activity visibility
 - **Sound Controls** - Audio feedback options
 
-## 🌐 API Integration
+## API Integration
 
 ### OpenWeatherMap API
 ```javascript
@@ -178,7 +178,7 @@ const response = await fetch(
 - **Urgency Levels** - HIGH, MEDIUM, NORMAL classifications
 - **Source Attribution** - Official Indian weather authorities
 
-## 🎨 Design System
+## Design System
 
 ### Theme Support
 - **Dark Mode** - Easy on the eyes, default theme
@@ -199,7 +199,7 @@ const response = await fetch(
 - **Line Height** - 150% for body, 120% for headings
 - **Responsive Scaling** - Fluid typography across devices
 
-## 📊 Performance Metrics
+## Performance Metrics
 
 ### Loading Performance
 - **First Contentful Paint** - < 1.5s
@@ -213,7 +213,7 @@ const response = await fetch(
 - **Caching Strategy** - Browser and service worker caching
 - **Minification** - Compressed CSS and JavaScript
 
-## 🔒 Security Features
+## Security Features
 
 ### Data Protection
 - **Environment Variables** - API keys secured
@@ -227,7 +227,7 @@ const response = await fetch(
 - **No Tracking** - No analytics or user tracking
 - **Transparent Sources** - All data sources disclosed
 
-## 🚀 Deployment
+## Deployment
 
 ### Render Configuration
 ```yaml
@@ -247,7 +247,7 @@ Environment Variables:
 4. **Health Check** - Application tested
 5. **Live Deployment** - Site goes live automatically
 
-## 🤝 Contributing
+## Contributing
 
 ### Development Workflow
 1. Fork the repository
@@ -264,7 +264,7 @@ Environment Variables:
 - **SonarQube** - Quality gates
 - **Semantic Commits** - Conventional commit messages
 
-## 📈 Monitoring & Analytics
+## Monitoring & Analytics
 
 ### Performance Monitoring
 - **Core Web Vitals** - Google performance metrics
@@ -278,7 +278,7 @@ Environment Variables:
 - **Performance Score** - 90+ Lighthouse score
 - **Accessibility** - WCAG 2.1 AA compliance
 
-## 🌟 Future Enhancements
+## Future Enhancements
 
 ### Planned Features
 - **PWA Support** - Progressive Web App capabilities
@@ -294,11 +294,11 @@ Environment Variables:
 - **GraphQL** - Efficient data fetching
 - **TypeScript** - Enhanced type safety
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 ### Data Sources
 - **India Meteorological Department (IMD)** - Official Indian weather data
@@ -319,7 +319,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **EPA** - Environmental data
 - **Climate.gov** - Climate information portal
 
-## 📞 Contact & Support
+## Contact & Support
 
 **Developer:** Kartik Hiremath  
 **GitHub:** [@Kartik-Hiremath](https://github.com/Kartik-Hiremath)  
@@ -334,7 +334,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🎯 Project Overview Summary
+## Project Overview Summary
 
 This Weather MultiApp represents a production-ready, India-focused weather application that combines real-time weather data, dynamic news generation, and comprehensive climate analysis. Built with modern web technologies and deployed through a robust DevOps pipeline, it serves as both a functional weather application and a demonstration of full-stack development capabilities.
 
@@ -345,5 +345,3 @@ This Weather MultiApp represents a production-ready, India-focused weather appli
 - **Responsive Design** - Works seamlessly across all devices
 - **Real-time Updates** - Dynamic content that refreshes automatically
 - **Clean Architecture** - Maintainable, scalable codebase
-
-⭐ **Star this repository if you found it helpful!**
