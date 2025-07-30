@@ -87,7 +87,7 @@ const getNewsImage = (category, season, urgency) => {
         'Fire': 'fire'
     };
 
-    const selectedCategory = categoryMap[category] || 'heat';
+    const selectedCategory = Object.keys(categoryMap).find(key => category.includes(key)) || 'heat';
 
     const images = imageCategories[selectedCategory];
     return images[Math.floor(Math.random() * images.length)];
@@ -371,7 +371,78 @@ function getNewsTemplates(season, randomCity, hour, currentDate) {
             urgency: 'MEDIUM',
             region: 'India'
         },
-        // ... (rest of the templates)
+        {
+            id: 3,
+            title: `Monsoon Update: ${Math.floor(Math.random() * 5) + 3} States Under ${season === 'monsoon' ? 'Heavy Rainfall' : 'Weather'} Alert`,
+            summary: `Central Water Commission and IMD issue joint advisory for ${season === 'monsoon' ? 'flood-prone areas across Kerala, Karnataka, Maharashtra, Gujarat, and Rajasthan' : 'weather disturbances affecting multiple Indian states'}. River levels rising in major basins. Disaster management teams deployed.`,
+            source: "Central Water Commission India",
+            url: "https://cwc.gov.in/",
+            category: "India Monsoon Alert",
+            urgency: 'HIGH',
+            region: 'India'
+        },
+        {
+            id: 4,
+            title: `Agricultural Emergency: ${season} Weather Patterns Threaten Kharif/Rabi Crops Across India`,
+            summary: `Ministry of Agriculture reports ${season === 'monsoon' ? 'excess rainfall damaging standing crops' : season === 'pre-monsoon' ? 'drought conditions affecting sowing' : 'unseasonal weather threatening harvest'} in major agricultural states. Farmer support measures announced. Food security concerns raised.`,
+            source: "Ministry of Agriculture & Farmers Welfare",
+            url: "https://agricoop.nic.in/",
+            category: "India Agriculture Alert",
+            urgency: 'HIGH',
+            region: 'India'
+        },
+        {
+            id: 5,
+            title: `Cyclone Watch: Bay of Bengal Disturbance Threatens East Coast - Odisha, Andhra Pradesh on Alert`,
+            summary: `Indian National Centre for Ocean Information Services (INCOIS) tracks ${Math.random() > 0.5 ? 'developing cyclonic circulation' : 'low pressure system'} in Bay of Bengal. Coastal states of Odisha, Andhra Pradesh, and West Bengal prepare for potential landfall. Fishing operations suspended.`,
+            source: "Indian National Centre for Ocean Information Services",
+            url: "https://incois.gov.in/",
+            category: "India Cyclone Alert",
+            urgency: 'HIGH',
+            region: 'India'
+        },
+        {
+            id: 6,
+            title: `Himalayan Weather Alert: Uttarakhand, Himachal Pradesh Face ${season === 'winter' ? 'Heavy Snowfall' : 'Extreme Weather'} Conditions`,
+            summary: `High altitude weather stations report ${season === 'winter' ? 'unprecedented snowfall blocking major highways and pilgrimage routes' : 'dangerous weather conditions in mountainous regions'}. Rescue operations underway. Tourist advisories issued for hill stations.`,
+            source: "India Meteorological Department - Mountain Division",
+            url: "https://mausam.imd.gov.in/",
+            category: "India Mountain Weather",
+            urgency: 'MEDIUM',
+            region: 'India'
+        },
+        
+        // Catastrophic World News (30% of content)
+        {
+            id: 7,
+            title: `GLOBAL CATASTROPHE: ${Math.random() > 0.5 ? 'Category 5 Hurricane' : 'Unprecedented Typhoon'} Devastates ${Math.random() > 0.5 ? 'Caribbean Islands' : 'Philippines'} - International Aid Requested`,
+            summary: `Catastrophic ${Math.random() > 0.5 ? 'Hurricane with 200+ mph winds' : 'Super Typhoon'} causes unprecedented destruction. Millions without power, entire cities evacuated. International disaster response teams mobilized. Climate scientists call it "worst storm in recorded history."`,
+            source: "World Meteorological Organization",
+            url: "https://public.wmo.int/",
+            category: "Global Catastrophe",
+            urgency: 'HIGH',
+            region: 'World'
+        },
+        {
+            id: 8,
+            title: `BREAKING: Massive Wildfires Engulf ${Math.random() > 0.5 ? 'California' : 'Australia'} - State of Emergency Declared`,
+            summary: `Unprecedented wildfire emergency as ${Math.random() > 0.5 ? 'multiple mega-fires merge in California' : 'bushfires rage across Australian states'}. Thousands evacuated, air quality reaches hazardous levels. International firefighting assistance requested. Climate change blamed for intensity.`,
+            source: "International Association of Fire Chiefs",
+            url: "https://www.iafc.org/",
+            category: "Global Fire Emergency",
+            urgency: 'HIGH',
+            region: 'World'
+        },
+        {
+            id: 9,
+            title: `ARCTIC EMERGENCY: Unprecedented Ice Sheet Collapse in ${Math.random() > 0.5 ? 'Greenland' : 'Antarctica'} Triggers Global Sea Level Concerns`,
+            summary: `Satellite imagery reveals catastrophic ice sheet collapse affecting global sea levels. Coastal cities worldwide on high alert. Emergency climate summit called. Scientists warn of "irreversible tipping point" reached. Immediate global action demanded.`,
+            source: "Intergovernmental Panel on Climate Change",
+            url: "https://www.ipcc.ch/",
+            category: "Global Climate Emergency",
+            urgency: 'HIGH',
+            region: 'World'
+        }
     ];
 }
 
@@ -424,69 +495,50 @@ function displayNews() {
     
     // Featured news (first article)
     const featured = newsData[0];
-    featuredDiv.innerHTML = ''; // Clear existing content
-    const featuredArticle = document.createElement('div');
-    featuredArticle.className = 'featured-article';
-    featuredArticle.onclick = () => openLink(featured.url);
-
-    featuredArticle.innerHTML = `
-        <div class="breaking-banner">
-            ${getUrgencyIndicator(featured.urgency)} - ${featured.region === 'India' ? 'INDIA' : 'WORLD'} BREAKING NEWS
-        </div>
-        <img src="${featured.image}" alt="${featured.title}" class="article-image">
-        <div class="article-content">
-            <h2 class="article-title"></h2>
-            <p class="article-summary"></p>
-            <div class="article-meta">
-                <div class="article-meta-left">
-                    <span><i class="fas fa-calendar"></i> ${new Date(featured.date).toLocaleDateString()}</span>
-                    <span></span>
+    featuredDiv.innerHTML = `
+        <div class="featured-article" onclick="openLink('${featured.url}')">
+            <div class="breaking-banner">
+                ${getUrgencyIndicator(featured.urgency)} - ${featured.region === 'India' ? 'INDIA' : 'WORLD'} BREAKING NEWS
+            </div>
+            <img src="${featured.image}" alt="${featured.title}" class="article-image">
+            <div class="article-content">
+                <h2 class="article-title">${featured.title}</h2>
+                <p class="article-summary">${featured.summary}</p>
+                <div class="article-meta">
+                    <div class="article-meta-left">
+                        <span><i class="fas fa-calendar"></i> ${new Date(featured.date).toLocaleDateString()}</span>
+                        <span>${featured.source}</span>
+                    </div>
+                    <span class="category-badge" style="background: ${getCategoryGradient(featured.category)}">
+                        ${featured.category}
+                    </span>
                 </div>
-                <span class="category-badge" style="background: ${getCategoryGradient(featured.category)}">
-                    
-                </span>
             </div>
         </div>
     `;
-    featuredArticle.querySelector('.article-title').textContent = featured.title;
-    featuredArticle.querySelector('.article-summary').textContent = featured.summary;
-    featuredArticle.querySelector('.article-meta-left span:last-child').textContent = featured.source;
-    featuredArticle.querySelector('.category-badge').textContent = featured.category;
-
-    featuredDiv.appendChild(featuredArticle);
     
     // News grid (remaining articles)
-    gridDiv.innerHTML = ''; // Clear existing content
-    newsData.slice(1).forEach(news => {
-        const article = document.createElement('div');
-        article.className = 'news-article';
-        article.onclick = () => openLink(news.url);
-
-        article.innerHTML = `
+    gridDiv.innerHTML = newsData.slice(1).map(news => `
+        <div class="news-article" onclick="openLink('${news.url}')">
             ${news.urgency === 'HIGH' ? `<div class="urgent-badge">🚨 ${news.region === 'India' ? 'INDIA' : 'WORLD'} URGENT</div>` : ''}
             <img src="${news.image}" alt="${news.title}" class="article-image">
             <div class="article-content">
-                <h3 class="article-title"></h3>
-                <p class="article-summary"></p>
+                <h3 class="article-title">${news.title}</h3>
+                <p class="article-summary">${news.summary}</p>
                 <div class="article-meta">
                     <div class="article-meta-left">
                         <span><i class="fas fa-calendar"></i> ${new Date(news.date).toLocaleDateString()}</span>
                     </div>
                     <span class="category-badge" style="background: ${getCategoryGradient(news.category)}">
+                        ${news.category}
                     </span>
                 </div>
                 <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.5rem;">
-                    Source: 
+                    Source: ${news.source}
                 </div>
             </div>
-        `;
-        article.querySelector('.article-title').textContent = news.title;
-        article.querySelector('.article-summary').textContent = news.summary;
-        article.querySelector('.category-badge').textContent = news.category;
-        article.querySelector('div[style*="Source:"]').textContent = `Source: ${news.source}`;
-
-        gridDiv.appendChild(article);
-    });
+        </div>
+    `).join('');
 }
 
 function getUrgencyIndicator(urgency) {
