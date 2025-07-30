@@ -54,9 +54,12 @@ A production-ready, India-focused weather application with real-time weather dat
 
 ```
 weather_app/
-├── index.html              # Main application file
-├── script.js              # Core JavaScript functionality
-├── style.css              # Comprehensive styling
+├── src/
+│   ├── index.html              # Main application file
+│   ├── script.js              # Core JavaScript functionality
+│   └── style.css              # Comprehensive styling
+├── public/
+│   └── Images/              # Image assets
 ├── Dockerfile             # Container configuration
 ├── Jenkinsfile            # CI/CD pipeline
 ├── sonar-project.properties # Code quality configuration
@@ -84,7 +87,7 @@ cp .env.example .env
 VITE_OPENWEATHER_API_KEY=your_api_key_here
 
 # Open in browser
-open index.html
+open src/index.html
 # or use a local server
 python -m http.server 8000
 ```
